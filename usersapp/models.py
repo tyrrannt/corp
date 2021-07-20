@@ -68,9 +68,9 @@ class CorpUser(AbstractUser):
 
     surname = models.CharField(verbose_name='Отчество', max_length=30, default='', blank=True)
     avatar = models.ImageField(verbose_name='Фотография', upload_to='media', blank=True)
-    birthday = models.DateField(verbose_name='Дата рождения', null=True)
+    birthday = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
     gender = models.CharField(verbose_name='Пол', max_length=1, choices=GENDERS, default=OTHER)
-    user_profile = models.ForeignKey(CorpUserProfile, verbose_name='Профиль пользователя', on_delete=models.SET_NULL, null=True)
+    user_profile = models.ForeignKey(CorpUserProfile, verbose_name='Профиль пользователя', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} {self.surname}"
