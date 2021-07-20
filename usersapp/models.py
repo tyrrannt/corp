@@ -65,7 +65,7 @@ class CorpUser(AbstractUser):
         (FEMALE, 'женский'),
     )
 
-    email = models.EmailField(primary_key=True, verbose_name='E-mail')
+
     surname = models.CharField(verbose_name='Отчество', max_length=30, default='', blank=True)
     avatar = models.ImageField(verbose_name='Фотография', upload_to='media', blank=True)
     birthday = models.DateField(verbose_name='Дата рождения', null=True)
