@@ -45,6 +45,17 @@ class CorpUserAccess(models.Model):
         return str(self.level)
 
 
+class Department(models.Model):
+    name = models.CharField(verbose_name='Название подразделения', max_length=100, blank=True)
+    def __str__(self):
+        return str(self.name)
+
+class Position(models.Model):
+    name = models.CharField(verbose_name='Название должности', max_length=100, blank=True)
+    def __str__(self):
+        return str(self.name)
+
+
 class CorpUserProfile(models.Model):
     phone = models.CharField(verbose_name='Личный номер телефона', max_length=15, blank=True)
     phone_corp = models.CharField(verbose_name='Корпоративный номер телефона', max_length=15, blank=True)
@@ -52,6 +63,7 @@ class CorpUserProfile(models.Model):
     email_personal = models.EmailField(verbose_name='E-mail')
     address = models.ForeignKey(Address, verbose_name='Адрес', on_delete=models.SET_NULL, null=True)
     access_right = models.ForeignKey(CorpUserAccess, verbose_name='Права доступа', on_delete=models.SET_NULL, null=True)
+    position = models.ForeignKey(Position, verbose_name='Должность', on_delete=models.SET_NULL, null=True, blank=True)
 
 
 class CorpUser(AbstractUser):
@@ -65,12 +77,14 @@ class CorpUser(AbstractUser):
         (FEMALE, 'женский'),
     )
 
-
     surname = models.CharField(verbose_name='Отчество', max_length=30, default='', blank=True)
     avatar = models.ImageField(verbose_name='Фотография', upload_to='media', blank=True)
     birthday = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
     gender = models.CharField(verbose_name='Пол', max_length=1, choices=GENDERS, default=OTHER)
-    user_profile = models.ForeignKey(CorpUserProfile, verbose_name='Профиль пользователя', on_delete=models.SET_NULL, null=True, blank=True)
+    user_profile = models.ForeignKey(CorpUserProfile, verbose_name='Профиль пользователя', on_delete=models.SET_NULL,
+                                     null=True, blank=True)
+    department = models.ForeignKey(Department, verbose_name='Подразделение', on_delete=models.SET_NULL, null=True,
+                                   blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} {self.surname}"
